@@ -1,10 +1,10 @@
-# RepoLate
+# ReactiveColors
 
-GitHub **Repository Template** for my future projects
+Vite-React Color Shade Generator.
 
 ## Contributing
 
-We welcome contributions! Please check the [CONTRIBUTING.md](https://github.com/MFM-347/RepoLate/blob/main/CONTRIBUTING.md) for guidelines.
+We welcome contributions! Please check the [CONTRIBUTING.md](https://github.com/MFM-347/ReactiveColors/blob/main/CONTRIBUTING.md) for guidelines.
 
 ## Credits
 
