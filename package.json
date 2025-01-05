@@ -1,5 +1,5 @@
 {
-  "name": "material-ui-vite-ts",
+  "name": "app",
   "private": true,
   "version": "5.0.0",
   "type": "module",
@@ -17,6 +17,11 @@
     "react-dom": "latest"
   },
   "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "eslint": "^9.17.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.16",
+    "globals": "^15.14.0",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "@vitejs/plugin-react": "latest",
