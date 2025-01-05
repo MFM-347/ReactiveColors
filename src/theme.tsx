@@ -1,15 +1,32 @@
+// theme.tsx
 import { createTheme } from "@mui/material/styles";
 import { red } from "@mui/material/colors";
 
-// A custom theme for this app
-const theme = createTheme({
-  cssVariables: true,
+// Define the light theme
+const lightTheme = createTheme({
   palette: {
+    mode: "light",
     primary: {
-      main: "#556cd6",
+      main: "#244bf9",
     },
     secondary: {
-      main: "#19857b",
+      main: "#757680",
+    },
+    error: {
+      main: red.A500,
+    },
+  },
+});
+
+// Define the dark theme
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+    primary: {
+      main: "#244bf9",
+    },
+    secondary: {
+      main: "#757680",
     },
     error: {
       main: red.A400,
@@ -17,4 +34,4 @@ const theme = createTheme({
   },
 });
 
-export default theme;
+export { lightTheme, darkTheme };
