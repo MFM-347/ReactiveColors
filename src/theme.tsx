@@ -7,13 +7,13 @@ const lightTheme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#244bf9",
+      main: "#385cfa",
     },
     secondary: {
       main: "#757680",
     },
     error: {
-      main: red.A500,
+      main: red[500],
     },
   },
 });
@@ -23,13 +23,13 @@ const darkTheme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: "#244bf9",
+      main: "#385cfa",
     },
     secondary: {
       main: "#757680",
     },
     error: {
-      main: red.A400,
+      main: red[400],
     },
   },
 });

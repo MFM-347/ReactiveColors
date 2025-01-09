@@ -25,6 +25,6 @@ const isDark = (color: string): boolean => {
   }
   return c.isDark();
 };
-const prClr = "#244bf9"; // Primary Color
+const prClr = "#385cfa"; // Primary Color
 
 export { generateShade, isDark, prClr };
