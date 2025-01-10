@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Box, Container, useMediaQuery } from "@mui/material";
-import Header from "./components/Header";
+import Nav from "./components/Nav";
 import Generator from "./components/Generator";
 import Examples from "./components/Examples";
 import { generateShade, prClr } from "./utils";
@@ -32,7 +32,7 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box sx={{ minHeight: "100vh", bgcolor: "background.default" }}>
-        <Header
+        <Nav
           darkMode={darkMode}
           onDarkModeToggle={() => setDarkMode(!darkMode)}
         />

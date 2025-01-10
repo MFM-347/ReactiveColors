@@ -13,14 +13,14 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-import { Refresh, ContentCopy, Save } from "@mui/icons-material";
+import { Autorenew, ContentCopy, Save } from "@mui/icons-material";
 import tinycolor from "tinycolor2";
 import { isDark } from "../utils";
-import SavedPalettes from "./SavedPalettes";
+import Saved from "./Saved";
 
-export default function ColorGenerator({ color, shades, onColorChange }) {
+export default function Generator({ color, shades, onColorChange }) {
   useEffect(() => {
-    const handleKeyPress = (e) => e.code === "Space" && randomColor();
+    const handleKeyPress = (e) => e.code === "Space" && random();
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
   }, []);
@@ -32,18 +32,17 @@ export default function ColorGenerator({ color, shades, onColorChange }) {
     const saved = JSON.parse(localStorage.getItem("palettes")) || [];
     setSavedPalettes(saved);
   }, []);
-
-  const updateColor = (e) => {
+  const update = (e) => {
     const newColor = e.target.value;
     onColorChange(newColor);
   };
 
-  const randomColor = () => {
+  const random = () => {
     const randColor = tinycolor.random().toHexString();
     onColorChange(randColor);
   };
 
-  const copyColor = (hex) => {
+  const copy = (hex) => {
     navigator.clipboard.writeText(hex);
     setSnack({ open: true, text: `Copied ${hex}` });
   };
@@ -124,12 +123,12 @@ export default function ColorGenerator({ color, shades, onColorChange }) {
         />
         <TextField
           value={color}
-          onChange={updateColor}
+          onChange={update}
           size="small"
           sx={{ width: "100%" }}
         />
-        <IconButton size="small" onClick={randomColor}>
-          <Refresh />
+        <IconButton size="small" onClick={random}>
+          <Autorenew />
         </IconButton>
       </Box>
       <Box
@@ -145,8 +144,8 @@ export default function ColorGenerator({ color, shades, onColorChange }) {
           <Box
             key={key}
             sx={{
-              py: 5,
-              px: 3.5,
+              py: 6,
+              px: 4,
               borderRadius: 2,
               backgroundColor: shades[key],
               display: "grid",
@@ -157,11 +156,12 @@ export default function ColorGenerator({ color, shades, onColorChange }) {
               fontSize: "0.8rem",
               boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
               transition: "transform 0.2s ease-in-out",
+              cursor: "pointer",
               "&:hover": {
                 transform: "scale(1.05)",
               },
             }}
-            onClick={() => copyColor(shades[key])}
+            onClick={() => copy(shades[key])}
           >
             <Typography>{key}</Typography>
             <Typography>{shades[key]}</Typography>
@@ -195,7 +195,7 @@ export default function ColorGenerator({ color, shades, onColorChange }) {
       <Dialog open={openModal} onClose={closeAModal}>
         <DialogTitle>Saved Palettes</DialogTitle>
         <DialogContent>
-          <SavedPalettes
+          <Saved
             savedPalettes={savedPalettes}
             onImportPalette={(palette) => onColorChange(palette.color)}
             onDeletePalette={deletePalette}

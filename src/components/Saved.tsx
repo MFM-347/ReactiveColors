@@ -1,7 +1,11 @@
 import { Box, List, ListItem, ListItemText, IconButton } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 
-const SavedPalettes = ({ savedPalettes, onImportPalette, onDeletePalette }) => {
+export default function Saved({
+  savedPalettes,
+  onImportPalette,
+  onDeletePalette,
+}) {
   return (
     <Box sx={{ textAlign: "center", mt: 4 }}>
       <List>
@@ -37,6 +41,4 @@ const SavedPalettes = ({ savedPalettes, onImportPalette, onDeletePalette }) => {
       </List>
     </Box>
   );
-};
-
-export default SavedPalettes;
+}

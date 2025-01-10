@@ -6,7 +6,7 @@ interface HeaderProps {
   onDarkModeToggle: () => void;
 }
 
-export default function Header({ darkMode, onDarkModeToggle }: HeaderProps) {
+export default function Nav({ darkMode, onDarkModeToggle }: HeaderProps) {
   return (
     <AppBar position="sticky" color="default" elevation={0}>
       <Toolbar>

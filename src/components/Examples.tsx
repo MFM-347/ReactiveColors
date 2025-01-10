@@ -18,7 +18,7 @@ export default function Examples({ shades }) {
             sx={{
               p: 3,
               bgcolor: shades[shadeKeys[8]],
-              color: shades[shadeKeys[2]],
+              color: shades[shadeKeys[1]],
             }}
           >
             <Typography variant="overline" sx={{ fontWeight: 600 }}>
@@ -36,8 +36,8 @@ export default function Examples({ shades }) {
           <Paper
             sx={{
               p: 3,
-              bgcolor: shades[shadeKeys[7]],
-              color: shades[shadeKeys[1]],
+              bgcolor: shades[shadeKeys[9]],
+              color: shades[shadeKeys[2]],
             }}
           >
             <Typography variant="overline">Revenue</Typography>
@@ -56,7 +56,7 @@ export default function Examples({ shades }) {
             sx={{
               p: 3,
               bgcolor: shades[shadeKeys[3]],
-              color: shades[shadeKeys[8]],
+              color: shades[shadeKeys[9]],
             }}
           >
             <Typography variant="overline">Today</Typography>
@@ -90,7 +90,7 @@ export default function Examples({ shades }) {
             sx={{
               p: 3,
               bgcolor: shades[shadeKeys[4]],
-              color: shades[shadeKeys[8]],
+              color: shades[shadeKeys[10]],
             }}
           >
             <Box
@@ -113,7 +113,7 @@ export default function Examples({ shades }) {
             <Button
               variant="contained"
               sx={{
-                bgcolor: shades[shadeKeys[7]],
+                bgcolor: shades[shadeKeys[8]],
                 color: shades[shadeKeys[2]],
                 width: "100%",
               }}
