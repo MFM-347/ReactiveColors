@@ -1,6 +1,6 @@
 # ShadeMaker
 
-Vite-React Color Shade Generator.
+ShadeMaker is a react app that lets you create and customize shades and color schemes for your design needs. Explore vibrant color options and more with our easy-to-use tool. 
 
 ## Contributing
 
