@@ -1,128 +1,239 @@
-import { Grid, Paper, Typography, Box, Button } from "@mui/material";
-import { BarChart } from "@mui/x-charts";
-import { Star } from "@mui/icons-material";
+import React, { useEffect, useState } from "react";
+import { Star, Info } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
-export default function Examples({ shades }) {
+interface Shades {
+  [key: string]: string;
+}
+interface ExamplesProps {
+  shades: Shades;
+}
+export default function Examples({ shades }: ExamplesProps) {
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const shadeKeys = Object.keys(shades);
-  const chartData = [4500, 3500, 6000, 8000, 5500, 7500];
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+  const chartData = [
+    { month: "Jan", revenue: 4500 },
+    { month: "Feb", revenue: 3500 },
+    { month: "Mar", revenue: 6000 },
+    { month: "Apr", revenue: 8000 },
+    { month: "May", revenue: 5500 },
+    { month: "Jun", revenue: 7500 },
+  ];
+  useEffect(() => {
+    const checkDarkMode = () => {
+      setIsDarkMode(document.documentElement.classList.contains("dark"));
+    };
+    checkDarkMode();
+    const observer = new MutationObserver(checkDarkMode);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    return () => observer.disconnect();
+  }, []);
+  const getShade = (index: number) => shades[shadeKeys[index]] || shades[shadeKeys[0]];
 
   return (
-    <Box sx={{ mt: 8 }}>
-      <Typography variant="h5" gutterBottom>
-        Examples
-      </Typography>
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={4}>
-          <Paper
-            sx={{
-              p: 3,
-              bgcolor: shades[shadeKeys[8]],
-              color: shades[shadeKeys[1]],
-            }}
-          >
-            <Typography variant="overline" sx={{ fontWeight: 600 }}>
+    <div className="mt-8 px-4 md:px-0">
+      <h2 className="text-3xl font-bold mb-6">Examples</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Card
+          style={{
+            backgroundColor: getShade(isDarkMode ? 3 : 9),
+            borderColor: getShade(isDarkMode ? 4 : 8),
+          }}
+        >
+          <CardHeader>
+            <CardTitle
+              className="text-sm font-medium"
+              style={{ color: getShade(isDarkMode ? 10 : 1) }}
+            >
               Customers
-            </Typography>
-            <Typography variant="h3" sx={{ my: 2 }}>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="mt-2 text-4xl font-bold" style={{ color: getShade(isDarkMode ? 10 : 0) }}>
               1,553
-            </Typography>
-            <Typography variant="body2">
-              New customers in past 30 days
-            </Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Paper
-            sx={{
-              p: 3,
-              bgcolor: shades[shadeKeys[9]],
-              color: shades[shadeKeys[2]],
-            }}
-          >
-            <Typography variant="overline">Revenue</Typography>
-            <Typography variant="h5" sx={{ mb: 2 }}>
+            </p>
+            <p className="text-sm mt-2" style={{ color: getShade(isDarkMode ? 9 : 3) }}>
+              New logins in past 30 days
+            </p>
+            <div
+              className="mt-4 h-2 rounded-full overflow-hidden"
+              style={{ backgroundColor: getShade(isDarkMode ? 3 : 9) }}
+            >
+              <div
+                style={{
+                  width: "60%",
+                  height: "100%",
+                  backgroundColor: getShade(isDarkMode ? 8 : 4),
+                }}
+              />
+            </div>
+            <p className="mt-2 text-4xl font-bold" style={{ color: getShade(isDarkMode ? 10 : 0) }}>
+              3,251
+            </p>
+            <p className="text-sm mt-2" style={{ color: getShade(isDarkMode ? 9 : 3) }}>
+              Premium Upgrades in past 30 days
+            </p>
+            <div
+              className="mt-4 h-2 rounded-full overflow-hidden"
+              style={{ backgroundColor: getShade(isDarkMode ? 3 : 9) }}
+            >
+              <div
+                style={{
+                  width: "80%",
+                  height: "100%",
+                  backgroundColor: getShade(isDarkMode ? 8 : 4),
+                }}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card
+          className="col-span-1 md:col-span-2"
+          style={{
+            backgroundColor: getShade(isDarkMode ? 3 : 10),
+            borderColor: getShade(isDarkMode ? 4 : 9),
+          }}
+        >
+          <CardHeader>
+            <CardTitle
+              className="text-sm font-medium"
+              style={{ color: getShade(isDarkMode ? 10 : 3) }}
+            >
+              Revenue
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-3xl font-bold mb-4" style={{ color: getShade(isDarkMode ? 10 : 3) }}>
               $35,000
-            </Typography>
-            <BarChart
-              series={[{ data: chartData, color: shades[shadeKeys[4]] }]}
-              height={200}
-              xAxis={[{ data: months, scaleType: "band" }]}
-            />
-          </Paper>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Paper
-            sx={{
-              p: 3,
-              bgcolor: shades[shadeKeys[3]],
-              color: shades[shadeKeys[9]],
-            }}
-          >
-            <Typography variant="overline">Today</Typography>
-            <Box sx={{ mt: 2 }}>
+            </p>
+            <ResponsiveContainer width="100%" height={200}>
+              <BarChart data={chartData}>
+                <XAxis
+                  dataKey="month"
+                  stroke={getShade(isDarkMode ? 8 : 3)}
+                  fontSize={12}
+                  tickLine={false}
+                  axisLine={false}
+                />
+                <YAxis
+                  stroke={getShade(isDarkMode ? 8 : 3)}
+                  fontSize={12}
+                  tickLine={false}
+                  axisLine={false}
+                  tickFormatter={(value) => `$${value}`}
+                />
+                <Bar dataKey="revenue" fill={getShade(isDarkMode ? 8 : 4)} radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+        <Card style={{ backgroundColor: getShade(4), color: getShade(9) }}>
+          <CardHeader>
+            <CardTitle className="text-sm font-medium">Today's Schedule</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-2">
               {[
                 { time: "9 - 10 AM", title: "Design system meeting" },
                 { time: "1 - 2 PM", title: "Lunch" },
                 { time: "3 - 4 PM", title: "Design review" },
               ].map((event, index) => (
-                <Box
+                <li
                   key={index}
-                  sx={{
-                    p: 2,
-                    mb: 1,
-                    bgcolor: shades[shadeKeys[5]],
-                    color: shades[shadeKeys[1]],
-                    borderRadius: 1,
+                  className="p-2 rounded transition-colors"
+                  style={{
+                    backgroundColor: `${getShade(9)}20`,
+                    ":hover": { backgroundColor: `${getShade(9)}60` },
                   }}
                 >
-                  <Typography variant="subtitle2">{event.title}</Typography>
-                  <Typography variant="caption" color="text.secondary">
-                    {event.time}
-                  </Typography>
-                </Box>
+                  <p className="font-medium">{event.title}</p>
+                  <p className="text-sm opacity-75">{event.time}</p>
+                </li>
               ))}
-            </Box>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Paper
-            sx={{
-              p: 3,
-              bgcolor: shades[shadeKeys[4]],
-              color: shades[shadeKeys[10]],
+            </ul>
+          </CardContent>
+        </Card>
+        <TooltipProvider>
+          <Card
+            style={{
+              backgroundColor: getShade(4),
+              borderColor: getShade(isDarkMode ? 3 : 9),
+              position: "relative",
+              overflow: "hidden",
             }}
           >
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                mb: 3,
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                background: `linear-gradient(to top right, ${getShade(7)}48, ${getShade(7)}64)`,
+                opacity: 0.5,
+                clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 80%)",
               }}
-            >
-              <Typography variant="h6">Premium Plan</Typography>
-              <Star sx={{ color: "primary.50" }} />
-            </Box>
-            <Typography variant="h3" sx={{ mb: 2 }}>
-              $29
-              <Typography component="span" variant="body1">
-                /month
-              </Typography>
-            </Typography>
-            <Button
-              variant="contained"
-              sx={{
-                bgcolor: shades[shadeKeys[8]],
-                color: shades[shadeKeys[2]],
-                width: "100%",
-              }}
-            >
-              Upgrade Now
-            </Button>
-          </Paper>
-        </Grid>
-      </Grid>
-    </Box>
+            />
+            <CardHeader>
+              <div className="flex justify-between items-center">
+                <CardTitle
+                  className="text-lg font-semibold"
+                  style={{ color: getShade(isDarkMode ? 10 : 1) }}
+                >
+                  Premium Plan
+                </CardTitle>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Star className="h-5 w-5" style={{ color: getShade(6) }} />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p style={{ color: getShade(isDarkMode ? 10 : 1) }}>Best value for money</p>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <p
+                className="text-4xl font-bold mb-2"
+                style={{ color: getShade(isDarkMode ? 10 : 1) }}
+              >
+                $29
+                <span
+                  className="text-base font-normal"
+                  style={{ color: getShade(isDarkMode ? 9 : 2) }}
+                >
+                  /month
+                </span>
+              </p>
+              <ul className="mt-4 space-y-2 mb-6">
+                {["Unlimited projects", "24/7 support", "Advanced analytics"].map(
+                  (feature, index) => (
+                    <li
+                      key={index}
+                      className="flex items-center text-sm"
+                      style={{ color: getShade(isDarkMode ? 10 : 0) }}
+                    >
+                      <Info className="h-4 w-4 mr-2" style={{ color: getShade(5) }} />
+                      {feature}
+                    </li>
+                  )
+                )}
+              </ul>
+              <Button
+                className="w-full"
+                size="lg"
+                style={{ backgroundColor: getShade(5), color: getShade(10) }}
+              >
+                Upgrade Now
+              </Button>
+            </CardContent>
+          </Card>
+        </TooltipProvider>
+      </div>
+    </div>
   );
 }

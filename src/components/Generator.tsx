@@ -1,37 +1,38 @@
+"use client";
+
 import { useState, useEffect } from "react";
+import { RefreshCcw, Copy, Save } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 import {
-  Box,
-  Typography,
-  TextField,
-  IconButton,
-  Snackbar,
-  Alert,
-  Stack,
-  Button,
   Dialog,
-  DialogActions,
   DialogContent,
+  DialogDescription,
+  DialogHeader,
   DialogTitle,
-} from "@mui/material";
-import { Autorenew, ContentCopy, Save } from "@mui/icons-material";
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import tinycolor from "tinycolor2";
 import { isDark } from "../utils";
 import Saved from "./Saved";
 
 export default function Generator({ color, shades, onColorChange }) {
+  const { toast } = useToast();
+  const [savedPalettes, setSavedPalettes] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+
   useEffect(() => {
     const handleKeyPress = (e) => e.code === "Space" && random();
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
   }, []);
 
-  const [snack, setSnack] = useState({ open: false, text: "" });
-  const [savedPalettes, setSavedPalettes] = useState([]);
-  const [openModal, setOpenModal] = useState(false);
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("palettes")) || [];
     setSavedPalettes(saved);
   }, []);
+
   const update = (e) => {
     const newColor = e.target.value;
     onColorChange(newColor);
@@ -44,7 +45,9 @@ export default function Generator({ color, shades, onColorChange }) {
 
   const copy = (hex) => {
     navigator.clipboard.writeText(hex);
-    setSnack({ open: true, text: `Copied ${hex}` });
+    toast({
+      description: `Copied ${hex}`,
+    });
   };
 
   const copyAll = (shades) => {
@@ -67,12 +70,13 @@ export default function Generator({ color, shades, onColorChange }) {
     const shadeCodeString = JSON.stringify(shadeCode, null, 2);
     navigator.clipboard
       .writeText(shadeCodeString)
-      .then(() => setSnack({ open: true, text: "All shades copied!" }))
-      .catch(() => setSnack({ open: true, text: "Failed to copy shades" }));
+      .then(() => toast({ description: "All shades copied!" }))
+      .catch(() => toast({ description: "Failed to copy shades" }));
   };
+
   const savePalette = () => {
     if (savedPalettes.some((palette) => palette.color === color)) {
-      setSnack({ open: true, text: "This palette is already saved!" });
+      toast({ description: "This palette is already saved!" });
       return;
     }
     const newPalette = {
@@ -83,128 +87,73 @@ export default function Generator({ color, shades, onColorChange }) {
     const updatedPalettes = [...savedPalettes, newPalette];
     setSavedPalettes(updatedPalettes);
     localStorage.setItem("palettes", JSON.stringify(updatedPalettes));
-    setSnack({ open: true, text: "Palette saved!" });
+    toast({ description: "Palette saved!" });
   };
+
   const deletePalette = (index) => {
     const updatedPalettes = savedPalettes.filter((_, i) => i !== index);
     setSavedPalettes(updatedPalettes);
     localStorage.setItem("palettes", JSON.stringify(updatedPalettes));
-    setSnack({ open: true, text: "Palette deleted!" });
+    toast({ description: "Palette deleted!" });
   };
-  const openAModal = () => setOpenModal(true);
-  const closeAModal = () => setOpenModal(false);
+
   return (
-    <Box sx={{ textAlign: "center", mb: 8 }}>
-      <Typography variant="h2" sx={{ fontWeight: 700, mb: 2 }}>
-        TW Shade Generator
-      </Typography>
-      <Typography variant="subtitle1" color="text.secondary" sx={{ mb: 4 }}>
+    <div className="text-center mb-8">
+      <h1 className="text-4xl font-bold mb-2">TW Shade Generator</h1>
+      <p className="text-muted-foreground mb-4">
         Press spacebar for random colors or enter a hex code to generate shades
-      </Typography>
-      <Box
-        sx={{
-          my: 4,
-          display: "flex",
-          justifyContent: "center",
-          gap: 1.5,
-          w: "80%",
-        }}
-      >
-        <Box
-          sx={{
-            width: 32,
-            height: 32,
-            borderRadius: "50%",
-            bgcolor: color,
-            mr: 1,
-            border: "2px solid",
-            borderColor: "divider",
-          }}
+      </p>
+      <div className="flex justify-center items-center gap-4 my-4">
+        <div
+          className="w-8 h-8 rounded-full border-2 border-border"
+          style={{ backgroundColor: color }}
         />
-        <TextField
-          value={color}
-          onChange={update}
-          size="small"
-          sx={{ width: "100%" }}
-        />
-        <IconButton size="small" onClick={random}>
-          <Autorenew />
-        </IconButton>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "center",
-          gap: 2,
-          mb: 4,
-        }}
-      >
-        {Object.keys(shades).map((key) => (
-          <Box
+        <Input value={color} onChange={update} className="w-full max-w-xs" />
+        <Button size="icon" variant="outline" onClick={random}>
+          <RefreshCcw className="h-4 w-4" />
+        </Button>
+      </div>
+      <div className="flex flex-wrap justify-center gap-4 mb-4">
+        {Object.entries(shades).map(([key, shade]) => (
+          <div
             key={key}
-            sx={{
-              py: 6,
-              px: 4,
-              borderRadius: 2,
-              backgroundColor: shades[key],
-              display: "grid",
-              PlaceItems: "center",
-              gap: 1,
-              textAlign: "center",
-              color: isDark(shades[key]) ? "white" : "black",
-              fontSize: "0.8rem",
-              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-              transition: "transform 0.2s ease-in-out",
-              cursor: "pointer",
-              "&:hover": {
-                transform: "scale(1.05)",
-              },
+            className="py-12 px-8 rounded-md text-lg font-normal transition-transform hover:scale-105 cursor-pointer"
+            style={{
+              backgroundColor: shade,
+              color: isDark(shade) ? "white" : "black",
+              border: "1px solid " + (isDark(shade) ? "white" : "black"),
             }}
-            onClick={() => copy(shades[key])}
+            onClick={() => copy(shade)}
           >
-            <Typography>{key}</Typography>
-            <Typography>{shades[key]}</Typography>
-          </Box>
+            <div className="font-semibold">{key}</div>
+            <div>{shade}</div>
+          </div>
         ))}
-      </Box>
-      <Stack direction="row" spacing={2} justifyContent="center">
-        <Button
-          variant="outlined"
-          onClick={() => copyAll(shades)}
-          startIcon={<ContentCopy />}
-        >
-          Copy All
+      </div>
+      <div className="flex justify-center gap-4">
+        <Button variant="outline" onClick={() => copyAll(shades)}>
+          <Copy className="mr-2 h-4 w-4" /> Copy All
         </Button>
-        <Button variant="contained" onClick={savePalette} startIcon={<Save />}>
-          Save Palette
+        <Button onClick={savePalette}>
+          <Save className="mr-2 h-4 w-4" /> Save Palette
         </Button>
-        <Button variant="text" onClick={openAModal}>
-          Show Saved Palettes
-        </Button>
-      </Stack>
-      <Snackbar
-        open={snack.open}
-        autoHideDuration={2000}
-        onClose={() => setSnack({ ...snack, open: false })}
-      >
-        <Alert severity="success" sx={{ width: "100%" }}>
-          {snack.text}
-        </Alert>
-      </Snackbar>
-      <Dialog open={openModal} onClose={closeAModal}>
-        <DialogTitle>Saved Palettes</DialogTitle>
-        <DialogContent>
-          <Saved
-            savedPalettes={savedPalettes}
-            onImportPalette={(palette) => onColorChange(palette.color)}
-            onDeletePalette={deletePalette}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeAModal}>Close</Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
+        <Dialog open={openModal} onOpenChange={setOpenModal}>
+          <DialogTrigger asChild>
+            <Button variant="secondary">Show Saved Palettes</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Saved Palettes</DialogTitle>
+              <DialogDescription>Your saved color palettes</DialogDescription>
+            </DialogHeader>
+            <Saved
+              savedPalettes={savedPalettes}
+              onImportPalette={(palette) => onColorChange(palette.color)}
+              onDeletePalette={deletePalette}
+            />
+          </DialogContent>
+        </Dialog>
+      </div>
+    </div>
   );
 }

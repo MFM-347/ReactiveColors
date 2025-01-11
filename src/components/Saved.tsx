@@ -1,44 +1,37 @@
-import { Box, List, ListItem, ListItemText, IconButton } from "@mui/material";
-import { Delete } from "@mui/icons-material";
+import { Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-export default function Saved({
-  savedPalettes,
-  onImportPalette,
-  onDeletePalette,
-}) {
+export default function Saved({ savedPalettes, onImportPalette, onDeletePalette }) {
   return (
-    <Box sx={{ textAlign: "center", mt: 4 }}>
-      <List>
-        {savedPalettes.length > 0 ? (
-          savedPalettes.map((palette, index) => (
-            <ListItem
-              button
+    <div className="mt-4">
+      {savedPalettes.length > 0 ? (
+        <ul className="space-y-2">
+          {savedPalettes.map((palette, index) => (
+            <li
               key={index}
+              className="flex justify-between items-center p-2 hover:bg-accent rounded-md cursor-pointer"
               onClick={() => onImportPalette(palette)}
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
             >
-              <ListItemText primary={palette.name} secondary={palette.color} />
-              <IconButton
-                edge="end"
+              <div>
+                <div>{palette.name}</div>
+                <div className="text-sm text-muted-foreground">{palette.color}</div>
+              </div>
+              <Button
+                variant="ghost"
+                size="icon"
                 onClick={(e) => {
                   e.stopPropagation();
                   onDeletePalette(index);
                 }}
               >
-                <Delete />
-              </IconButton>
-            </ListItem>
-          ))
-        ) : (
-          <Typography variant="body2" color="text.secondary">
-            No saved palettes yet.
-          </Typography>
-        )}
-      </List>
-    </Box>
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-muted-foreground">No saved palettes yet.</p>
+      )}
+    </div>
   );
 }
