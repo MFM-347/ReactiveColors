@@ -1,7 +1,11 @@
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export default function Saved({ savedPalettes, onImportPalette, onDeletePalette }) {
+export default function Saved({
+  savedPalettes,
+  onImportPalette,
+  onDeletePalette,
+}) {
   return (
     <div className="mt-4">
       {savedPalettes.length > 0 ? (
@@ -14,7 +18,9 @@ export default function Saved({ savedPalettes, onImportPalette, onDeletePalette 
             >
               <div>
                 <div>{palette.name}</div>
-                <div className="text-sm text-muted-foreground">{palette.color}</div>
+                <div className="text-sm text-muted-foreground">
+                  {palette.color}
+                </div>
               </div>
               <Button
                 variant="ghost"

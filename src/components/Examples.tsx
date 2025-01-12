@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Star, Info } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
 interface Shades {
@@ -34,7 +39,8 @@ export default function Examples({ shades }: ExamplesProps) {
     });
     return () => observer.disconnect();
   }, []);
-  const getShade = (index: number) => shades[shadeKeys[index]] || shades[shadeKeys[0]];
+  const getShade = (index: number) =>
+    shades[shadeKeys[index]] || shades[shadeKeys[0]];
 
   return (
     <div className="mt-8 px-4 md:px-0">
@@ -55,10 +61,16 @@ export default function Examples({ shades }: ExamplesProps) {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="mt-2 text-4xl font-bold" style={{ color: getShade(isDarkMode ? 10 : 0) }}>
+            <p
+              className="mt-2 text-4xl font-bold"
+              style={{ color: getShade(isDarkMode ? 10 : 0) }}
+            >
               1,553
             </p>
-            <p className="text-sm mt-2" style={{ color: getShade(isDarkMode ? 9 : 3) }}>
+            <p
+              className="text-sm mt-2"
+              style={{ color: getShade(isDarkMode ? 9 : 3) }}
+            >
               New logins in past 30 days
             </p>
             <div
@@ -73,10 +85,16 @@ export default function Examples({ shades }: ExamplesProps) {
                 }}
               />
             </div>
-            <p className="mt-2 text-4xl font-bold" style={{ color: getShade(isDarkMode ? 10 : 0) }}>
+            <p
+              className="mt-2 text-4xl font-bold"
+              style={{ color: getShade(isDarkMode ? 10 : 0) }}
+            >
               3,251
             </p>
-            <p className="text-sm mt-2" style={{ color: getShade(isDarkMode ? 9 : 3) }}>
+            <p
+              className="text-sm mt-2"
+              style={{ color: getShade(isDarkMode ? 9 : 3) }}
+            >
               Premium Upgrades in past 30 days
             </p>
             <div
@@ -110,7 +128,10 @@ export default function Examples({ shades }: ExamplesProps) {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-bold mb-4" style={{ color: getShade(isDarkMode ? 10 : 3) }}>
+            <p
+              className="text-3xl font-bold mb-4"
+              style={{ color: getShade(isDarkMode ? 10 : 3) }}
+            >
               $35,000
             </p>
             <ResponsiveContainer width="100%" height={200}>
@@ -129,14 +150,20 @@ export default function Examples({ shades }: ExamplesProps) {
                   axisLine={false}
                   tickFormatter={(value) => `$${value}`}
                 />
-                <Bar dataKey="revenue" fill={getShade(isDarkMode ? 8 : 4)} radius={[4, 4, 0, 0]} />
+                <Bar
+                  dataKey="revenue"
+                  fill={getShade(isDarkMode ? 8 : 4)}
+                  radius={[4, 4, 0, 0]}
+                />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
         <Card style={{ backgroundColor: getShade(4), color: getShade(9) }}>
           <CardHeader>
-            <CardTitle className="text-sm font-medium">Today's Schedule</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Today's Schedule
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <ul className="space-y-2">
@@ -191,7 +218,9 @@ export default function Examples({ shades }: ExamplesProps) {
                     <Star className="h-5 w-5" style={{ color: getShade(6) }} />
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p style={{ color: getShade(isDarkMode ? 10 : 1) }}>Best value for money</p>
+                    <p style={{ color: getShade(isDarkMode ? 10 : 1) }}>
+                      Best value for money
+                    </p>
                   </TooltipContent>
                 </Tooltip>
               </div>
@@ -210,18 +239,23 @@ export default function Examples({ shades }: ExamplesProps) {
                 </span>
               </p>
               <ul className="mt-4 space-y-2 mb-6">
-                {["Unlimited projects", "24/7 support", "Advanced analytics"].map(
-                  (feature, index) => (
-                    <li
-                      key={index}
-                      className="flex items-center text-sm"
-                      style={{ color: getShade(isDarkMode ? 10 : 0) }}
-                    >
-                      <Info className="h-4 w-4 mr-2" style={{ color: getShade(5) }} />
-                      {feature}
-                    </li>
-                  )
-                )}
+                {[
+                  "Unlimited projects",
+                  "24/7 support",
+                  "Advanced analytics",
+                ].map((feature, index) => (
+                  <li
+                    key={index}
+                    className="flex items-center text-sm"
+                    style={{ color: getShade(isDarkMode ? 10 : 0) }}
+                  >
+                    <Info
+                      className="h-4 w-4 mr-2"
+                      style={{ color: getShade(5) }}
+                    />
+                    {feature}
+                  </li>
+                ))}
               </ul>
               <Button
                 className="w-full"

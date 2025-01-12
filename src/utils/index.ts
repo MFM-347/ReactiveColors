@@ -4,11 +4,11 @@ const generateShade = (baseColor: string) => {
   const color = tinycolor(baseColor);
 
   return {
-    "50": color.clone().lighten(52).desaturate(20).toHexString(),
-    "100": color.clone().lighten(40).desaturate(15).toHexString(),
-    "200": color.clone().lighten(30).desaturate(10).toHexString(),
-    "300": color.clone().lighten(20).desaturate(5).toHexString(),
-    "400": color.clone().lighten(10).toHexString(),
+    "50": color.clone().lighten(52).spin(-5).desaturate(25).toHexString(),
+    "100": color.clone().lighten(40).desaturate(20).toHexString(),
+    "200": color.clone().lighten(30).desaturate(15).toHexString(),
+    "300": color.clone().lighten(20).desaturate(10).toHexString(),
+    "400": color.clone().lighten(10).desaturate(5).toHexString(),
     "500": color.clone().toHexString(),
     "600": color.clone().darken(10).saturate(5).toHexString(),
     "700": color.clone().darken(20).saturate(10).toHexString(),

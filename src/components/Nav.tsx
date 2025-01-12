@@ -22,11 +22,13 @@ export default function Nav() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/90 backdrop-blur-sm px-4">
+    <header className="sticky top-0 z-50 w-full border-b bg-background-ultra/90 backdrop-blur-md px-4">
       <div className="container flex h-14 items-center">
         <div className="mr-4 hidden md:flex">
           <a className="mr-6 flex items-center space-x-2" href="/">
-            <span className="hidden sm:inline-block text-lg font-bold">ShadeMaker</span>
+            <span className="hidden sm:inline-block text-lg font-bold">
+              ShadeMaker
+            </span>
           </a>
         </div>
         <div className="flex flex-1 items-center justify-between gap-x-2 md:justify-end">
