@@ -4,6 +4,7 @@
 
 @layer base {
   :root {
+    font-family: "Roboto", Helvetica, sans-serif;
     --background: hsl(0 0% 95%);
     --background-ultra: #fbfbfb;
     --foreground: hsl(229 10% 3.9%);
@@ -61,45 +62,38 @@
 }
 @layer base {
   * {
-    @apply border-border font-def;
+    @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
   }
 }
-html,
-.scroll {
+html {
   scrollbar-width: thin;
+  scroll-behavior: smooth;
   scrollbar-color: #d1d5db transparent;
 }
-html.dark,
-.dark .scroll {
+html.dark {
   scrollbar-color: #374151 transparent;
 }
-html::-webkit-scrollbar,
-.scroll::-webkit-scrollbar {
+html::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
-html::-webkit-scrollbar-track,
-.scroll::-webkit-scrollbar-track {
+html::-webkit-scrollbar-track {
   background: transparent;
 }
-html::-webkit-scrollbar-thumb,
-.scroll::-webkit-scrollbar-thumb {
+html::-webkit-scrollbar-thumb {
   background: #d1d5db;
   border-radius: 4px;
 }
-html.dark::-webkit-scrollbar-thumb,
-.dark .scroll::-webkit-scrollbar-thumb {
+html.dark::-webkit-scrollbar-thumb {
   background: #374151;
 }
-html::-webkit-scrollbar-thumb:hover,
-.scroll::-webkit-scrollbar-thumb:hover {
+html::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;
 }
 
-html.dark::-webkit-scrollbar-thumb:hover,
-.dark .scroll::-webkit-scrollbar-thumb:hover {
+html.dark::-webkit-scrollbar-thumb:hover {
   background: #4b5563;
 }
