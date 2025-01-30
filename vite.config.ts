@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 import path from "path";
+import Sitemap from "vite-plugin-sitemap";
 
 export default defineConfig({
   plugins: [
@@ -35,6 +36,11 @@ export default defineConfig({
         suppressWarnings: true,
         type: "module",
       },
+    }),
+    Sitemap({
+      hostname: "https://mfm-347.github.io/shademaker/",
+      changefreq: "weekly",
+      generateRobotsTxt: true,
     }),
   ],
   base: "/shademaker/",

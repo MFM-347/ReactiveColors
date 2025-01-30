@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Star, Info } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -177,7 +177,12 @@ export default function Examples({ shades }: ExamplesProps) {
                   className="p-2 rounded transition-colors"
                   style={{
                     backgroundColor: `${getShade(9)}20`,
-                    ":hover": { backgroundColor: `${getShade(9)}60` },
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = `${getShade(9)}60`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = `${getShade(9)}20`;
                   }}
                 >
                   <p className="font-medium">{event.title}</p>

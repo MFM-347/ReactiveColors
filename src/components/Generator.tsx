@@ -17,23 +17,45 @@ import tinycolor from "tinycolor2";
 import { isDark } from "../utils";
 import Saved from "./Saved";
 
-export default function Generator({ color, shades, onColorChange }) {
+interface Shade {
+  [key: string]: string;
+}
+
+interface Palette {
+  color: string;
+  shades: Shade;
+  name: string;
+}
+
+interface GeneratorProps {
+  color: string;
+  shades: Shade;
+  onColorChange: (color: string) => void;
+}
+
+export default function Generator({
+  color,
+  shades,
+  onColorChange,
+}: GeneratorProps) {
   const { toast } = useToast();
-  const [savedPalettes, setSavedPalettes] = useState([]);
+  const [savedPalettes, setSavedPalettes] = useState<Palette[]>([]);
   const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
-    const handleKeyPress = (e) => e.code === "Space" && random();
+    const handleKeyPress = (e: KeyboardEvent) => e.code === "Space" && random();
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
   }, []);
 
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("palettes")) || [];
+    const saved = JSON.parse(
+      localStorage.getItem("palettes") || "[]",
+    ) as Palette[];
     setSavedPalettes(saved);
   }, []);
 
-  const update = (e) => {
+  const update = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newColor = e.target.value;
     onColorChange(newColor);
   };
@@ -43,14 +65,14 @@ export default function Generator({ color, shades, onColorChange }) {
     onColorChange(randColor);
   };
 
-  const copy = (hex) => {
+  const copy = (hex: string) => {
     navigator.clipboard.writeText(hex);
     toast({
       description: `Copied ${hex}`,
     });
   };
 
-  const copyAll = (shades) => {
+  const copyAll = (shades: Shade) => {
     const shadeKeys = Object.keys(shades);
     const shadeCode = {
       color: {
@@ -79,7 +101,7 @@ export default function Generator({ color, shades, onColorChange }) {
       toast({ description: "This palette is already saved!" });
       return;
     }
-    const newPalette = {
+    const newPalette: Palette = {
       color,
       shades,
       name: `Palette ${savedPalettes.length + 1}`,
@@ -90,7 +112,7 @@ export default function Generator({ color, shades, onColorChange }) {
     toast({ description: "Palette saved!" });
   };
 
-  const deletePalette = (index) => {
+  const deletePalette = (index: number) => {
     const updatedPalettes = savedPalettes.filter((_, i) => i !== index);
     setSavedPalettes(updatedPalettes);
     localStorage.setItem("palettes", JSON.stringify(updatedPalettes));
@@ -148,7 +170,9 @@ export default function Generator({ color, shades, onColorChange }) {
             </DialogHeader>
             <Saved
               savedPalettes={savedPalettes}
-              onImportPalette={(palette) => onColorChange(palette.color)}
+              onImportPalette={(palette: Palette) =>
+                onColorChange(palette.color)
+              }
               onDeletePalette={deletePalette}
             />
           </DialogContent>

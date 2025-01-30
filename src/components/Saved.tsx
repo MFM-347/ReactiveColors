@@ -1,11 +1,23 @@
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+interface Palette {
+  color: string;
+  shades: Record<string, string>;
+  name: string;
+}
+
+interface SavedProps {
+  savedPalettes: Palette[];
+  onImportPalette: (palette: Palette) => void;
+  onDeletePalette: (index: number) => void;
+}
+
 export default function Saved({
   savedPalettes,
   onImportPalette,
   onDeletePalette,
-}) {
+}: SavedProps) {
   return (
     <div className="mt-4">
       {savedPalettes.length > 0 ? (
